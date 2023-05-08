@@ -1,5 +1,9 @@
+global using YogaReservationAPI.Dtos.YogaClass;
+global using YogaReservationAPI.Models;
+global using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using YogaReservationAPI.Data;
+using YogaReservationAPI.Services.YogaClass;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +15,9 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddAutoMapper(typeof(Program).Assembly);
+
+builder.Services.AddScoped<IYogaClassService, YogaClassService>();
 
 var app = builder.Build();
 
