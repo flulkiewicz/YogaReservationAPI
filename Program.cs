@@ -4,6 +4,7 @@ global using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using YogaReservationAPI.Data;
 using YogaReservationAPI.Services.YogaClass;
+using YogaReservationAPI.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,6 +28,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseMiddleware<ErrorHandlingMiddleware>();
+app.UseMiddleware<RequestTimeMiddleware>();
 
 app.UseHttpsRedirection();
 
