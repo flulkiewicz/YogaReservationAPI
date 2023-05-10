@@ -12,8 +12,8 @@ using YogaReservationAPI.Data;
 namespace YogaReservationAPI.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230508135312_UserYogaClassesRelation")]
-    partial class UserYogaClassesRelation
+    [Migration("20230510170950_anotherFix")]
+    partial class anotherFix
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -40,6 +40,30 @@ namespace YogaReservationAPI.Migrations
                     b.ToTable("UserYogaClass");
                 });
 
+            modelBuilder.Entity("YogaReservationAPI.Models.Location", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Locations");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Address = "To be confirmed"
+                        });
+                });
+
             modelBuilder.Entity("YogaReservationAPI.Models.User", b =>
                 {
                     b.Property<int>("Id")
@@ -48,7 +72,18 @@ namespace YogaReservationAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("InstructorStatus")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Phone")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -84,7 +119,14 @@ namespace YogaReservationAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("LocationId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(1);
+
                     b.HasKey("Id");
+
+                    b.HasIndex("LocationId");
 
                     b.ToTable("YogaClasses");
                 });
@@ -102,6 +144,17 @@ namespace YogaReservationAPI.Migrations
                         .HasForeignKey("YogaClassesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("YogaReservationAPI.Models.YogaClass", b =>
+                {
+                    b.HasOne("YogaReservationAPI.Models.Location", "Location")
+                        .WithMany()
+                        .HasForeignKey("LocationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Location");
                 });
 #pragma warning restore 612, 618
         }

@@ -12,8 +12,8 @@ using YogaReservationAPI.Data;
 namespace YogaReservationAPI.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230508181339_LocationAddedToModelsRelationToYogaClass")]
-    partial class LocationAddedToModelsRelationToYogaClass
+    [Migration("20230510161327_LocationDBset")]
+    partial class LocationDBset
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -54,7 +54,7 @@ namespace YogaReservationAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Location");
+                    b.ToTable("Locations");
                 });
 
             modelBuilder.Entity("YogaReservationAPI.Models.User", b =>
