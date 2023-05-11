@@ -9,21 +9,14 @@ namespace YogaReservationAPI.Data
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Location>().HasData(
-                    new Location { Id=1,  Address = "To be confirmed" }
-                );
-
-            modelBuilder.Entity<YogaClass>()
-                .Property(x => x.LocationId)
-                .HasDefaultValue(1);
+            modelBuilder.ApplyConfigurationsFromAssembly(this.GetType().Assembly);
         }
 
 
         public DbSet<User> Users { get; set; }
+        public DbSet<Role> Roles { get; set; }
         public DbSet<YogaClass> YogaClasses { get; set; }
         public DbSet<Location> Locations { get; set; }
-
-        
 
     }
 }
