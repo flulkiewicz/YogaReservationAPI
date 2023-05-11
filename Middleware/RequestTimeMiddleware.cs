@@ -1,10 +1,28 @@
-﻿namespace YogaReservationAPI.Middleware
+﻿using System.Diagnostics;
+
+namespace YogaReservationAPI.Middleware
 {
     public class RequestTimeMiddleware : IMiddleware
     {
-        public Task InvokeAsync(HttpContext context, RequestDelegate next)
+        private readonly ILogger<RequestTimeMiddleware> _logger;
+        private Stopwatch _requestTime;
+
+
+        public RequestTimeMiddleware(ILogger<RequestTimeMiddleware> logger)
         {
-            throw new NotImplementedException();
+            _logger = logger;
+            _requestTime = new Stopwatch();
+        }
+        public async Task InvokeAsync(HttpContext context, RequestDelegate next)
+        {
+            _requestTime.Start();
+
+            await next.Invoke(context);
+
+            _requestTime.Stop();
+
+            if (_requestTime.ElapsedMilliseconds > 4000)
+                _logger.LogWarning($"{context.Request.Method}||{context.Request.Path} took {_requestTime.ElapsedMilliseconds}ms");
         }
     }
 }

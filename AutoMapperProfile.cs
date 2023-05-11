@@ -8,6 +8,8 @@ namespace YogaReservationAPI
         public AutoMapperProfile() 
         {
             CreateMap<YogaClass, GetYogaClassResponseDto>();
+            CreateMap<AddYogaClassRequestDto, YogaClass>();
+            CreateMap<UpdateYogaClassRequestDto, YogaClass>();
         }
     }
 }
