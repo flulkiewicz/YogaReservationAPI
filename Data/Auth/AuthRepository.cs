@@ -38,7 +38,37 @@ namespace YogaReservationAPI.Data.Auth
                 return computedHash.SequenceEqual(passwordHash);
             }
         }
-        
+
+        private string CreateToken(User user)
+        {
+            var claims = new List<Claim>()
+            {
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.Role, user.RoleId.ToString())
+            };
+
+            var appSettingsToken = _configuration.GetSection("Authentication:JwtToken").Value;
+
+            if (appSettingsToken == null)
+                throw new Exception("Token is null");
+
+            SymmetricSecurityKey key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(appSettingsToken));
+
+            SigningCredentials creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+
+            var tokenDescriptor = new SecurityTokenDescriptor()
+            {
+                Subject = new ClaimsIdentity(claims),
+                Expires = DateTime.UtcNow.AddDays(1),
+                SigningCredentials = creds
+            };
+
+            JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
+            SecurityToken token = tokenHandler.CreateToken(tokenDescriptor);
+
+            return tokenHandler.WriteToken(token);
+        }
 
         public async Task<bool> UserExists(string email)
         {
@@ -66,9 +96,29 @@ namespace YogaReservationAPI.Data.Auth
 
             return response;
         }
-        public Task<ServiceResponse<string>> Login(string email, string password)
+        public async Task<ServiceResponse<string>> Login(string email, string password)
         {
-            throw new NotImplementedException();
+            var response = new ServiceResponse<string>();
+
+            var user = await _context.Users
+                .FirstOrDefaultAsync(x => x.Email.ToLower() == email.ToLower());
+
+            if (user == null)
+            {
+                response.Success = false;
+                response.Message = "User not found.";
+            }
+            else if (!VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
+            {
+                response.Success = false;
+                response.Message = "Wrong credentials.";
+            }
+            else
+            {
+                response.Data = CreateToken(user);
+            }
+
+            return response;
         }
     }
 }

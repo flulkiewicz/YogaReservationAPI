@@ -17,7 +17,7 @@ namespace YogaReservationAPI.Controllers
             _authRepository = authRepository;
         }
 
-        [HttpPost("Register")]
+        [HttpPost("register")]
         public async Task<ActionResult<ServiceResponse<int>>> Register(UserRegisterDto userRegisterDto)
         {
             var response = await _authRepository.Register(userRegisterDto);
@@ -27,6 +27,19 @@ namespace YogaReservationAPI.Controllers
                 return BadRequest(response);
             }
 
+            return Ok(response);
+        }
+
+
+        [HttpPost("login")]
+        public async Task<ActionResult<ServiceResponse<string>>> Login(UserLoginDto userLoginDto)
+        {
+            var response = await _authRepository.Login(userLoginDto.Email, userLoginDto.Password);
+
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
             return Ok(response);
         }
     }
