@@ -34,7 +34,7 @@ namespace YogaReservationAPI.Migrations
 
                     b.HasIndex("YogaClassesId");
 
-                    b.ToTable("UserYogaClass");
+                    b.ToTable("UserYogaClass", (string)null);
                 });
 
             modelBuilder.Entity("YogaReservationAPI.Models.Location", b =>
@@ -51,7 +51,7 @@ namespace YogaReservationAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Locations");
+                    b.ToTable("Locations", (string)null);
 
                     b.HasData(
                         new
@@ -75,7 +75,7 @@ namespace YogaReservationAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Roles");
+                    b.ToTable("Roles", (string)null);
 
                     b.HasData(
                         new
@@ -141,7 +141,7 @@ namespace YogaReservationAPI.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("YogaReservationAPI.Models.YogaClass", b =>
@@ -172,7 +172,7 @@ namespace YogaReservationAPI.Migrations
 
                     b.HasIndex("LocationId");
 
-                    b.ToTable("YogaClasses");
+                    b.ToTable("YogaClasses", (string)null);
                 });
 
             modelBuilder.Entity("UserYogaClass", b =>

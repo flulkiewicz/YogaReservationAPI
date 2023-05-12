@@ -5,9 +5,13 @@ using Microsoft.EntityFrameworkCore;
 using YogaReservationAPI.Data;
 using YogaReservationAPI.Services.YogaClass;
 using YogaReservationAPI.Middleware;
+using NLog.Web;
+using YogaReservationAPI.Data.Auth;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Logging.ClearProviders();
+builder.Host.UseNLog();
 // Add services to the container.
 builder.Services.AddScoped<ErrorHandlingMiddleware>();
 builder.Services.AddScoped<RequestTimeMiddleware>();
@@ -21,6 +25,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
 builder.Services.AddScoped<IYogaClassService, YogaClassService>();
+builder.Services.AddScoped<IAuthRepository, AuthRepository>();
+
 
 var app = builder.Build();
 

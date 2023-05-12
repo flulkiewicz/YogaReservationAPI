@@ -19,7 +19,7 @@
                 _logger.LogError($"Error {ex} with message {ex.Message}");
                 context.Response.StatusCode = 500;
 
-                await context.Response.WriteAsJsonAsync($"Our yoga service is currently in meditation state, we will try to wake him up. Come back soon.");
+                await context.Response.WriteAsJsonAsync($"{ex} \n \n {ex.Message}");
             }
         }
     }
