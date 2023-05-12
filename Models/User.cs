@@ -11,7 +11,6 @@ namespace YogaReservationAPI.Models
         public string Phone { get; set; } = string.Empty;
         public int RoleId { get; set; }
         public virtual Role? Role { get; set; }
-
         public bool InstructorStatus { get; set; } = false;
         public List<YogaClass> YogaClasses { get; set; } = new List<YogaClass>();
         public byte[] PasswordHash { get; set; } = new byte[0];

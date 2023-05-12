@@ -52,12 +52,6 @@ namespace YogaReservationAPI.Data.Auth
         public async Task<ServiceResponse<int>> Register(UserRegisterDto userRegisterDto)
         {
             var response = new ServiceResponse<int>();
-            if (await UserExists(userRegisterDto.Email))
-            {
-                response.Success = false;
-                response.Message = "User already exists.";
-                return response;
-            }
 
             CreatePasswordHash(userRegisterDto.Password, out byte[] passwordHash, out byte[] passwordSalt);
 
