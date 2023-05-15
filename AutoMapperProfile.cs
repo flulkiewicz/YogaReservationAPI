@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using YogaReservationAPI.Dtos.User;
 using YogaReservationAPI.Dtos.YogaClass;
 
 namespace YogaReservationAPI
@@ -10,6 +11,7 @@ namespace YogaReservationAPI
             CreateMap<YogaClass, GetYogaClassResponseDto>();
             CreateMap<AddYogaClassRequestDto, YogaClass>();
             CreateMap<UpdateYogaClassRequestDto, YogaClass>();
+            CreateMap<UserRegisterDto, User>();
         }
     }
 }

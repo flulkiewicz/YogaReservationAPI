@@ -8,6 +8,6 @@
         public Location? Location { get; set; }
         public int LocationId { get; set; }
         public DateTime Date { get; set; }
-        public List<User> Users { get; set; } = new List<User>();
+        public List<Models.User> Users { get; set; } = new List<Models.User>();
     }
 }
