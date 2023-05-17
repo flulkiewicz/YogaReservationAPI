@@ -3,7 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using YogaReservationAPI.Dtos.User;
+using YogaReservationAPI.Dtos.UserDtos;
 
 namespace YogaReservationAPI.Data.Auth
 {
@@ -116,6 +116,7 @@ namespace YogaReservationAPI.Data.Auth
             else
             {
                 response.Data = CreateToken(user);
+                response.Message = "Logged in.";
             }
 
             return response;

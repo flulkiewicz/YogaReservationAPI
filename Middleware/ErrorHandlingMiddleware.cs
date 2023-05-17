@@ -19,7 +19,12 @@
                 _logger.LogError($"Error {ex} with message {ex.Message}");
                 context.Response.StatusCode = 500;
 
-                await context.Response.WriteAsJsonAsync($"{ex} \n \n {ex.Message}");
+                var response = new ServiceResponse<string>();
+                response.Data = ex.Message;
+                response.Success = false;
+                response.Message = "Internal Server Error";
+
+                await context.Response.WriteAsJsonAsync(response);
             }
         }
     }

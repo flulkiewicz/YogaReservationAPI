@@ -1,4 +1,4 @@
-﻿using YogaReservationAPI.Dtos.User;
+﻿using YogaReservationAPI.Dtos.UserDtos;
 
 namespace YogaReservationAPI.Data.Auth
 {

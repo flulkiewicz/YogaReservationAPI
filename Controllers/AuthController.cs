@@ -2,7 +2,7 @@
 using Azure.Core;
 using Microsoft.AspNetCore.Mvc;
 using YogaReservationAPI.Data.Auth;
-using YogaReservationAPI.Dtos.User;
+using YogaReservationAPI.Dtos.UserDtos;
 
 namespace YogaReservationAPI.Controllers
 {

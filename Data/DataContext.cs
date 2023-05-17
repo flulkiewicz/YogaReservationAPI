@@ -12,11 +12,9 @@ namespace YogaReservationAPI.Data
             modelBuilder.ApplyConfigurationsFromAssembly(this.GetType().Assembly);
         }
 
-
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
-        public DbSet<YogaClass> YogaClasses { get; set; }
         public DbSet<Location> Locations { get; set; }
-
+        public DbSet<YogaTraining> YogaTrainings { get; set; }
     }
 }
