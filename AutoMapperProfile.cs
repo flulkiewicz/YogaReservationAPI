@@ -12,6 +12,7 @@ namespace YogaReservationAPI
             CreateMap<User, GetUserFullInfoDto>();
             CreateMap<AddYogaTrainingDto, YogaTraining>();
             CreateMap<YogaTraining, GetYogaTrainingDto>();
+            CreateMap<UpdateYogaTrainingDto, YogaTraining>();
         }
     }
 }

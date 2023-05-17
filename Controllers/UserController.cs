@@ -4,6 +4,7 @@ using YogaReservationAPI.Services.UserService;
 
 namespace YogaReservationAPI.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("/user")]
     public class UserController : ControllerBase

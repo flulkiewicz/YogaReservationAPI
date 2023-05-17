@@ -3,12 +3,11 @@
     public class GetYogaTrainingDto
     {
         public int Id { get; set; }
-        public int InstructorId { get; set; }
-        public User? Instructor { get; set; }
+        public string Description { get; set; } = string.Empty;
         public DateTime? Date { get; set; }
         public int LocationId { get; set; }
         public Location? Location { get; set; }
         public int MaxParticipants { get; set; }
-        public int CurrentPaticipants { get; set; } = 0;
+        public int CurrentParticipants { get; set; }
     }
 }

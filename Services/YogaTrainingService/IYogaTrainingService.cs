@@ -6,10 +6,12 @@ namespace YogaReservationAPI.Services.YogaTrainingService
     {
         Task<ServiceResponse<GetYogaTrainingDto>> GetYogaTrainignById(int id);
         Task<ServiceResponse<List<GetYogaTrainingDto>>> GetYogaTrainings();
-        Task<ServiceResponse<List<GetYogaTrainingDto>>> GetYogaTrainingByUser(int userId);
+        Task<ServiceResponse<List<GetYogaTrainingDto>>> GetYogaTrainingsByUser(int userId);
         Task<ServiceResponse<GetYogaTrainingDto>> AddYogaTraining(AddYogaTrainingDto addYogaTrainingDto);
-        Task<ServiceResponse<GetYogaTrainingDto>> UpdateYogaTraining(YogaTraining yogaTraining);
-        Task<ServiceResponse<GetYogaTrainingDto>> RemoveYogaTraining(int id);
+        Task<ServiceResponse<GetYogaTrainingDto>> UpdateYogaTraining(UpdateYogaTrainingDto updateYogaTrainingDto, int id);
+        Task<ServiceResponse<List<GetYogaTrainingDto>>> DeleteYogaTraining(int id);
+        Task<ServiceResponse<GetYogaTrainingDto>> AddUserToTraining(int trainingId, int userId);
+        Task<ServiceResponse<GetYogaTrainingDto>> RemoveUserFromTraining(int trainingId, int userId);
 
     }
 }

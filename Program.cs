@@ -1,6 +1,3 @@
-global using YogaReservationAPI.Models;
-global using AutoMapper;
-global using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using YogaReservationAPI.Data;
 using YogaReservationAPI.Middleware;
@@ -18,6 +15,7 @@ using Microsoft.AspNetCore.Http.Json;
 using System.Text.Json.Serialization;
 using YogaReservationAPI.Services.UserService;
 using YogaReservationAPI.Services.YogaTrainingService;
+using YogaReservationAPI.Dtos.YogaTraining;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,9 +32,10 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 {
     options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
 });
+builder.Services.AddValidatorsFromAssemblyContaining<UserRegisterDtoValidator>()
+    .AddFluentValidationAutoValidation()
+    .AddFluentValidationClientsideAdapters();
 
-builder.Services.AddFluentValidationAutoValidation();
-builder.Services.AddFluentValidationClientsideAdapters();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
@@ -52,7 +51,7 @@ builder.Services.AddSwaggerGen(c =>
     c.OperationFilter<SecurityRequirementsOperationFilter>();
 });
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
-builder.Services.AddScoped<IValidator<UserRegisterDto>, UserRegisterDtoValidator>();
+
 
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<IUserService, UserService>();

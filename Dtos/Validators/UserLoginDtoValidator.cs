@@ -5,7 +5,7 @@ namespace YogaReservationAPI.Dtos.Validators
 {
     public class UserLoginDtoValidator : AbstractValidator<UserLoginDto>
     {
-        public UserLoginDtoValidator(DataContext context)
+        public UserLoginDtoValidator()
         {
             RuleFor(x => x.Email).NotEmpty();
 

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using YogaReservationAPI.Data;
 using YogaReservationAPI.Dtos.UserDtos;
+using YogaReservationAPI.Exceptions;
 
 namespace YogaReservationAPI.Services.UserService
 {
@@ -23,11 +24,7 @@ namespace YogaReservationAPI.Services.UserService
                 .FirstOrDefaultAsync(u => u.Id == id);
 
             if (user == null)
-            {
-                response.Success = false;
-                response.Message = "User with given ID not found.";
-                return response;
-            }
+                throw new NotFoundException("User not found.");
 
             response.Data = _mapper.Map<GetUserFullInfoDto>(user);
 

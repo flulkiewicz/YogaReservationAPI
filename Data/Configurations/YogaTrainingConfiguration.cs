@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Reflection.Emit;
 
 namespace YogaReservationAPI.Data.Configurations
 {
@@ -13,6 +14,8 @@ namespace YogaReservationAPI.Data.Configurations
             builder.Property(x => x.MaxParticipants).IsRequired();
 
             builder.Property(x => x.LocationId).HasDefaultValue(1);
+
+            builder.Property(x => x.CurrentParticipants).HasDefaultValue(0);
         }
     }
 }
