@@ -14,6 +14,19 @@ namespace YogaReservationAPI.Services.YogaTrainingService
             _context = context;
             _mapper = mapper;
         }
+
+        private async Task<YogaTraining> GetByIdWithLocation(int trainingId)
+        {
+            var yogaTraining = await _context.YogaTrainings
+                .Include(y => y.Location)
+                .FirstOrDefaultAsync(y => y.Id == trainingId);
+
+            if (yogaTraining == null)
+                throw new NotFoundException($"Yoga training with given id: {trainingId} not exists.");
+
+            return yogaTraining;
+        }
+
         public async Task<ServiceResponse<GetYogaTrainingDto>> AddYogaTraining(AddYogaTrainingDto addYogaTrainingDto)
         {
             var response = new ServiceResponse<GetYogaTrainingDto>();
@@ -33,12 +46,7 @@ namespace YogaReservationAPI.Services.YogaTrainingService
         {
             var response = new ServiceResponse<GetYogaTrainingDto>();
 
-            var yogaTraining = await _context.YogaTrainings
-                .Include(y => y.Location)
-                .FirstOrDefaultAsync(y => y.Id == id);
-
-            if (yogaTraining == null)
-                throw new NotFoundException($"Yoga training with given id: {id} not exists.");
+            var yogaTraining = await GetByIdWithLocation(id);
 
             response.Data = _mapper.Map<GetYogaTrainingDto>(yogaTraining);
 
@@ -97,12 +105,7 @@ namespace YogaReservationAPI.Services.YogaTrainingService
         {
             var response = new ServiceResponse<GetYogaTrainingDto>();
 
-            var yogaTraining = await _context.YogaTrainings
-                .Include(y => y.Location)
-                .FirstOrDefaultAsync(y => y.Id == id);
-
-            if (yogaTraining == null)
-                throw new NotFoundException("No yoga training with id = {id} was found");
+            var yogaTraining = await GetByIdWithLocation(id);
 
             _mapper.Map(updateYogaTrainingDto, yogaTraining);
             await _context.SaveChangesAsync();
@@ -118,13 +121,11 @@ namespace YogaReservationAPI.Services.YogaTrainingService
             var response = new ServiceResponse<GetYogaTrainingDto>();
 
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
-            var yogaTraining = await _context.YogaTrainings
-                .Include(y => y.Location)
-                .Include(y => y.Participants)
-                .FirstOrDefaultAsync(y => y.Id == trainingId);
 
-            if (user == null || yogaTraining == null)
-                throw new NotFoundException("User or training with given id was not found.");
+            if (user == null)
+                throw new NotFoundException("User with given id was not found.");
+
+            var yogaTraining = await GetByIdWithLocation(trainingId);
 
             if (yogaTraining.Participants.Contains(user))
                 throw new Exception("User is already on list");
@@ -150,9 +151,11 @@ namespace YogaReservationAPI.Services.YogaTrainingService
 
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
             var yogaTraining = await _context.YogaTrainings
-                .Include(y => y.Location)
                 .Include(y => y.Participants)
                 .FirstOrDefaultAsync(y => y.Id == trainingId);
+
+            if (yogaTraining == null)
+                throw new NotFoundException($"Yoga training with given id: {trainingId} not exists.");
 
             if (user == null || yogaTraining == null)
                 throw new NotFoundException("User or training with given id was not found.");
