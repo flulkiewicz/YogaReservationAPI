@@ -16,6 +16,9 @@ using System.Text.Json.Serialization;
 using YogaReservationAPI.Services.UserService;
 using YogaReservationAPI.Services.YogaTrainingService;
 using YogaReservationAPI.Dtos.YogaTraining;
+using YogaReservationAPI.Settings;
+using Microsoft.Extensions.Configuration;
+using YogaReservationAPI.Services.InstructorService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,7 +30,7 @@ builder.Services.AddScoped<RequestTimeMiddleware>();
 
 builder.Services.AddDbContext<DataContext>(options => 
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
+builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
     options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
@@ -56,6 +59,8 @@ builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IYogaTrainingService, YogaTrainingService>();
+builder.Services.AddScoped<INotificationService, NotificationService>();
+
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
