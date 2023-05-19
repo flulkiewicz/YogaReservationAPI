@@ -1,6 +1,6 @@
 ﻿
 using YogaReservationAPI.Data;
-using YogaReservationAPI.Dtos.User;
+using YogaReservationAPI.Dtos.UserDtos;
 
 namespace YogaReservationAPI.Dtos.Validators
 {

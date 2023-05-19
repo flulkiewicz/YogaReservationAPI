@@ -2,12 +2,12 @@
 using Azure.Core;
 using Microsoft.AspNetCore.Mvc;
 using YogaReservationAPI.Data.Auth;
-using YogaReservationAPI.Dtos.User;
+using YogaReservationAPI.Dtos.UserDtos;
 
 namespace YogaReservationAPI.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("/auth")]
     public class AuthController : ControllerBase
     {
         private readonly IAuthRepository _authRepository;

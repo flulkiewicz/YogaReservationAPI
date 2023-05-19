@@ -12,8 +12,8 @@ using YogaReservationAPI.Data;
 namespace YogaReservationAPI.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230511215617_DefaultRoles")]
-    partial class DefaultRoles
+    [Migration("20230517150833_YogaTrainingCurrentPaticipants")]
+    partial class YogaTrainingCurrentPaticipants
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,19 +25,19 @@ namespace YogaReservationAPI.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("UserYogaClass", b =>
+            modelBuilder.Entity("UserYogaTraining", b =>
                 {
-                    b.Property<int>("UsersId")
+                    b.Property<int>("ParticipantsId")
                         .HasColumnType("int");
 
-                    b.Property<int>("YogaClassesId")
+                    b.Property<int>("YogaTrainingsId")
                         .HasColumnType("int");
 
-                    b.HasKey("UsersId", "YogaClassesId");
+                    b.HasKey("ParticipantsId", "YogaTrainingsId");
 
-                    b.HasIndex("YogaClassesId");
+                    b.HasIndex("YogaTrainingsId");
 
-                    b.ToTable("UserYogaClass");
+                    b.ToTable("UserYogaTraining");
                 });
 
             modelBuilder.Entity("YogaReservationAPI.Models.Location", b =>
@@ -110,9 +110,6 @@ namespace YogaReservationAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("InstructorStatus")
-                        .HasColumnType("bit");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(15)
@@ -147,7 +144,7 @@ namespace YogaReservationAPI.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("YogaReservationAPI.Models.YogaClass", b =>
+            modelBuilder.Entity("YogaReservationAPI.Models.YogaTraining", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -155,40 +152,39 @@ namespace YogaReservationAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("Date")
+                    b.Property<int>("CurrentParticipants")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("Date")
+                        .IsRequired()
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Instructor")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("LocationId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasDefaultValue(1);
 
+                    b.Property<int>("MaxParticipants")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("LocationId");
 
-                    b.ToTable("YogaClasses");
+                    b.ToTable("YogaTrainings");
                 });
 
-            modelBuilder.Entity("UserYogaClass", b =>
+            modelBuilder.Entity("UserYogaTraining", b =>
                 {
                     b.HasOne("YogaReservationAPI.Models.User", null)
                         .WithMany()
-                        .HasForeignKey("UsersId")
+                        .HasForeignKey("ParticipantsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("YogaReservationAPI.Models.YogaClass", null)
+                    b.HasOne("YogaReservationAPI.Models.YogaTraining", null)
                         .WithMany()
-                        .HasForeignKey("YogaClassesId")
+                        .HasForeignKey("YogaTrainingsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -204,7 +200,7 @@ namespace YogaReservationAPI.Migrations
                     b.Navigation("Role");
                 });
 
-            modelBuilder.Entity("YogaReservationAPI.Models.YogaClass", b =>
+            modelBuilder.Entity("YogaReservationAPI.Models.YogaTraining", b =>
                 {
                     b.HasOne("YogaReservationAPI.Models.Location", "Location")
                         .WithMany()

@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace YogaReservationAPI.Migrations
 {
     /// <inheritdoc />
@@ -38,21 +40,20 @@ namespace YogaReservationAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "YogaClasses",
+                name: "YogaTrainings",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Instructor = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LocationId = table.Column<int>(type: "int", nullable: false, defaultValue: 1),
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    MaxParticipants = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_YogaClasses", x => x.Id);
+                    table.PrimaryKey("PK_YogaTrainings", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_YogaClasses_Locations_LocationId",
+                        name: "FK_YogaTrainings_Locations_LocationId",
                         column: x => x.LocationId,
                         principalTable: "Locations",
                         principalColumn: "Id",
@@ -70,7 +71,6 @@ namespace YogaReservationAPI.Migrations
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     RoleId = table.Column<int>(type: "int", nullable: false, defaultValue: 1),
-                    InstructorStatus = table.Column<bool>(type: "bit", nullable: false),
                     PasswordHash = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
                     PasswordSalt = table.Column<byte[]>(type: "varbinary(max)", nullable: false)
                 },
@@ -86,25 +86,25 @@ namespace YogaReservationAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserYogaClass",
+                name: "UserYogaTraining",
                 columns: table => new
                 {
-                    UsersId = table.Column<int>(type: "int", nullable: false),
-                    YogaClassesId = table.Column<int>(type: "int", nullable: false)
+                    ParticipantsId = table.Column<int>(type: "int", nullable: false),
+                    YogaTrainingsId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserYogaClass", x => new { x.UsersId, x.YogaClassesId });
+                    table.PrimaryKey("PK_UserYogaTraining", x => new { x.ParticipantsId, x.YogaTrainingsId });
                     table.ForeignKey(
-                        name: "FK_UserYogaClass_Users_UsersId",
-                        column: x => x.UsersId,
+                        name: "FK_UserYogaTraining_Users_ParticipantsId",
+                        column: x => x.ParticipantsId,
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_UserYogaClass_YogaClasses_YogaClassesId",
-                        column: x => x.YogaClassesId,
-                        principalTable: "YogaClasses",
+                        name: "FK_UserYogaTraining_YogaTrainings_YogaTrainingsId",
+                        column: x => x.YogaTrainingsId,
+                        principalTable: "YogaTrainings",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -114,19 +114,29 @@ namespace YogaReservationAPI.Migrations
                 columns: new[] { "Id", "Address" },
                 values: new object[] { 1, "To be confirmed" });
 
+            migrationBuilder.InsertData(
+                table: "Roles",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 1, "User" },
+                    { 2, "Instructor" },
+                    { 3, "Administrator" }
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Users_RoleId",
                 table: "Users",
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserYogaClass_YogaClassesId",
-                table: "UserYogaClass",
-                column: "YogaClassesId");
+                name: "IX_UserYogaTraining_YogaTrainingsId",
+                table: "UserYogaTraining",
+                column: "YogaTrainingsId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_YogaClasses_LocationId",
-                table: "YogaClasses",
+                name: "IX_YogaTrainings_LocationId",
+                table: "YogaTrainings",
                 column: "LocationId");
         }
 
@@ -134,13 +144,13 @@ namespace YogaReservationAPI.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "UserYogaClass");
+                name: "UserYogaTraining");
 
             migrationBuilder.DropTable(
                 name: "Users");
 
             migrationBuilder.DropTable(
-                name: "YogaClasses");
+                name: "YogaTrainings");
 
             migrationBuilder.DropTable(
                 name: "Roles");

@@ -1,4 +1,4 @@
-﻿namespace YogaReservationAPI.Dtos.User
+﻿namespace YogaReservationAPI.Dtos.UserDtos
 {
     public class UserLoginDto
     {

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace YogaReservationAPI.Dtos.User
+namespace YogaReservationAPI.Dtos.UserDtos
 {
     public class UserRegisterDto
     {

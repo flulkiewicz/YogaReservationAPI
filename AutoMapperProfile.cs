@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using YogaReservationAPI.Dtos.User;
-using YogaReservationAPI.Dtos.YogaClass;
+using YogaReservationAPI.Dtos.UserDtos;
+using YogaReservationAPI.Dtos.YogaTraining;
 
 namespace YogaReservationAPI
 {
@@ -8,10 +8,11 @@ namespace YogaReservationAPI
     {
         public AutoMapperProfile() 
         {
-            CreateMap<YogaClass, GetYogaClassResponseDto>();
-            CreateMap<AddYogaClassRequestDto, YogaClass>();
-            CreateMap<UpdateYogaClassRequestDto, YogaClass>();
             CreateMap<UserRegisterDto, User>();
+            CreateMap<User, GetUserFullInfoDto>();
+            CreateMap<AddYogaTrainingDto, YogaTraining>();
+            CreateMap<YogaTraining, GetYogaTrainingDto>();
+            CreateMap<UpdateYogaTrainingDto, YogaTraining>();
         }
     }
 }
