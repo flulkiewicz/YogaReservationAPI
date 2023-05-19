@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using YogaReservationAPI.Dtos.NotificationsDtos;
 using YogaReservationAPI.Dtos.UserDtos;
 using YogaReservationAPI.Dtos.YogaTraining;
 
@@ -13,6 +14,7 @@ namespace YogaReservationAPI
             CreateMap<AddYogaTrainingDto, YogaTraining>();
             CreateMap<YogaTraining, GetYogaTrainingDto>();
             CreateMap<UpdateYogaTrainingDto, YogaTraining>();
+            CreateMap<EmailDto, MailRequest>();
         }
     }
 }
