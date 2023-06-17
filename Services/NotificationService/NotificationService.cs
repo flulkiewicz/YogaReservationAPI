@@ -111,27 +111,7 @@ namespace YogaReservationAPI.Services.InstructorService
             var mailRequest = _mapper.Map<MailRequest>(emailDto);
 
 
-            var response = new ServiceResponse<List<string>>();
-            var result = new List<string>();
-            int successfulNotifications = 0;
-
-            foreach (var user in users)
-            {
-                if (user.Email == null || !IsMailValid(user.Email))
-                {
-                    result.Add($"Failed- User id:{user.Id} have incorrect or empty e-mail");
-                    continue;
-                }
-
-                mailRequest.ToEmail = user.Email;
-
-                await SendNotification(mailRequest);
-                result.Add($"Success- User id:{user.Id}, email:{user.Email}");
-                successfulNotifications++;
-            }
-
-            response.Data = result;
-            response.Message = $"{successfulNotifications}/{users.Count} emails has been sent succesfully.";
+            var response = await SendNotificationToGroup(mailRequest, users);
 
             return response;
         }

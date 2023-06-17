@@ -16,6 +16,15 @@ namespace YogaReservationAPI.Controllers
             _yogaTrainingService = yogaTrainingService;
         }
 
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<ActionResult<ServiceResponse<List<GetYogaTrainingDto>>>> GetAll()
+        {
+            return Ok(await _yogaTrainingService.GetYogaTrainings());
+        }
+
+
+
         [HttpGet("/{id}")]
         public async Task<ActionResult<ServiceResponse<GetYogaTrainingDto>>> GetYogaTrainingById(int id)
         {
